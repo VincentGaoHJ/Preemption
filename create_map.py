@@ -8,7 +8,6 @@ Created on Sat Aug 18 22:07:13 2018
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from mpl_toolkits.basemap import Basemap
-from matplotlib.colors import rgb2hex
 import csv
 
 from io import BytesIO
@@ -30,6 +29,7 @@ def get_province():
 
 
 def create_map(your_castle, computer_castle):
+    plt.switch_backend('agg')
     # 创建一个地图
     plt.figure(figsize=(14, 7))
     m = Basemap(llcrnrlon=77, llcrnrlat=14, urcrnrlon=140, urcrnrlat=51, projection='lcc', lat_1=33, lat_2=45,
@@ -58,7 +58,7 @@ def create_map(your_castle, computer_castle):
         color = '#0000ff'
     else:
         color = '#ffffff'
-    ax = plt.gca()
+    # ax = plt.gca()
     m.readshapefile('./static/gadm36_MAC_shp/gadm36_MAC_0', 'xianggang', drawbounds=True)
     for nshape, seg in enumerate(m.xianggang):
         poly = Polygon(seg, facecolor=color)
@@ -70,7 +70,7 @@ def create_map(your_castle, computer_castle):
         color = '#0000ff'
     else:
         color = '#ffffff'
-    ax = plt.gca()
+    # ax = plt.gca()
     m.readshapefile('./static/gadm36_HKG_shp/gadm36_HKG_0', 'aomen', drawbounds=True)
     for nshape, seg in enumerate(m.aomen):
         poly = Polygon(seg, facecolor=color)
@@ -100,7 +100,7 @@ def create_map(your_castle, computer_castle):
         else:
             colors[s] = '#ffffff'
 
-    ax = plt.gca()
+    # ax = plt.gca()
     for nshape, seg in enumerate(m.states):
         color = colors[statenames[nshape]]
         poly = Polygon(seg, facecolor=color, edgecolor=color)
@@ -109,5 +109,5 @@ def create_map(your_castle, computer_castle):
     sio = BytesIO()
     plt.savefig(sio, format='png')
     data = base64.encodebytes(sio.getvalue()).decode()
-    plt.close()
+    plt.close('all')
     return data

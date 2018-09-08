@@ -8,6 +8,7 @@ import json
 import csv
 from key import key_check, key_generate
 from create_map import create_map
+from play import play
 
 
 def score(your_castle):
@@ -67,13 +68,6 @@ def check_gameover(your_castle, computer_castle):
         return False
 
 
-def play(prov, your_castle, computer_castle):
-    for i in prov:
-        if i not in your_castle:
-            if i not in computer_castle:
-                return i
-
-
 def reset_castle(rules, your_castle, computer_castle, choice, player):
     if player == "your":
         if your_castle == "":
@@ -123,7 +117,9 @@ def attack(encodedjson, model):
         rt = "抱歉，您选择的城堡已经被敌方占领，请重新尝试！"
         json_failed_Generate(rules, your_castle, computer_castle, your_choice, computer_choice, rt)
         return encodedjson
+
     prov = get_province()
+
     if your_choice not in prov:
         rt = "抱歉，您选择的城堡不在中国的省份内，请重新尝试！"
         json_failed_Generate(rules, your_castle, computer_castle, your_choice, computer_choice, rt)
@@ -131,6 +127,7 @@ def attack(encodedjson, model):
 
     your_castle, computer_castle = reset_castle(rules, your_castle, computer_castle, your_choice, "your")
     print(your_castle, computer_castle)
+
     if model == 1:
         map1 = create_map(your_castle, computer_castle)
 
@@ -138,9 +135,13 @@ def attack(encodedjson, model):
         final_score = score(your_castle)
         rt = "恭喜你，您的游戏结束了，最后得分是：%s" % (final_score)
         encodedjson = json_failed_Generate(rules, your_castle, computer_castle, your_choice, computer_choice, rt)
-        return encodedjson
+        if model == 1:
+            map2 = ""
+            return encodedjson, map1, map2
+        elif model == 0:
+            return encodedjson
 
-    computer_choice = play(prov, your_castle, computer_castle)
+    computer_choice = play(prov, your_castle, computer_castle, rules)
 
     your_castle, computer_castle = reset_castle(rules, your_castle, computer_castle, computer_choice, "computer")
     print(your_castle, computer_castle)
@@ -151,11 +152,15 @@ def attack(encodedjson, model):
         final_score = score(your_castle)
         rt = "恭喜你，您的游戏结束了，最后得分是：%s" % final_score
         encodedjson = json_failed_Generate(rules, your_castle, computer_castle, your_choice, computer_choice, rt)
-        return encodedjson
+        if model == 1:
+            return encodedjson, map1, map2
+        elif model == 0:
+            return encodedjson
 
     encodedjson = json_Generate(rules, your_castle, computer_castle, computer_choice)
 
     if model == 1:
         return encodedjson, map1, map2
+
     else:
         return encodedjson

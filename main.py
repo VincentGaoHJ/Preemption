@@ -7,8 +7,10 @@ Created on Thu Aug 16 16:36:41 2018
 import json
 import csv
 import random
+from play import play
 from province import province
 from key import key_generate
+from attack import get_province
 from create_map import create_map
 
 
@@ -16,15 +18,18 @@ def jsonGenerate(model):
     name = globals()
     rules, prov_dict = ruleGenerate()
     your_castle = ""
-    computer_choice = 'Beijing'
     computer_castle = []
+    if model == 1:
+        map1 = create_map(your_castle, computer_castle)
+    prov = get_province()
+    computer_choice = play(prov, your_castle, computer_castle, rules)
     computer_castle.append(computer_choice)
     list_computer_castle = name[computer_choice].birth
     list_computer_castle.sort()
     for i in list_computer_castle:
         computer_castle.append(prov_dict[str(i)])
     if model == 1:
-        map = create_map(your_castle, computer_castle)
+        map2 = create_map(your_castle, computer_castle)
     key = key_generate(rules, your_castle, computer_castle)
     jsonObject = [{"rules": rules},
                   {"your_castle": your_castle, "computer_castle": computer_castle},
@@ -32,7 +37,7 @@ def jsonGenerate(model):
                   {"key": key}]
     encodedjson = json.dumps(jsonObject)
     if model == 1:
-        return encodedjson, map
+        return encodedjson, map1, map2
     else:
         return encodedjson
 
@@ -71,18 +76,15 @@ def ruleGenerate():
         names[prov_dict[str(killee_id)]].kill(killer_id)
         m += 1
         rules.append([prov_dict[str(killer_id)], prov_dict[str(killee_id)]])
-        #print("killer_id: %d ==> killee_id: %d " %(killer_id, killee_id))
+        # print("killer_id: %d ==> killee_id: %d " %(killer_id, killee_id))
         print(prov_dict[str(killer_id)], end='')
         print(" ==> ", end='')
         print(prov_dict[str(killee_id)])
     print(rules)
-    #print("asdasdasdasdasd")
+    # print("asdasdasdasdasd")
     # print("生成的规则数：", m)
 
     for i in prov:
         names[i].show()
 
     return rules, prov_dict
-
-
-ruleGenerate()
