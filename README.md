@@ -1,2 +1,2 @@
 # Preemption
-This is a file for text classification of high school exam questions.
+This is the introduction of “数据科学进阶题” of 2018 SME Cup competition, including the introduction of the game, schedule, title and data.
