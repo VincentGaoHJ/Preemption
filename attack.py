@@ -107,22 +107,22 @@ def attack(encodedjson, model):
 
     if key_check(rules, your_castle, computer_castle, key) != True:
         rt = "抱歉，密钥匹配失败，请重新尝试！"
-        json_failed_Generate(rules, your_castle, computer_castle, your_choice, computer_choice, rt)
+        encodedjson = json_failed_Generate(rules, your_castle, computer_castle, your_choice, computer_choice, rt)
         return encodedjson
     if your_choice in your_castle:
         rt = "抱歉，您选择的城堡已经被己方占领，请重新尝试！"
-        json_failed_Generate(rules, your_castle, computer_castle, your_choice, computer_choice, rt)
+        encodedjson = json_failed_Generate(rules, your_castle, computer_castle, your_choice, computer_choice, rt)
         return encodedjson
     if your_choice in computer_castle:
         rt = "抱歉，您选择的城堡已经被敌方占领，请重新尝试！"
-        json_failed_Generate(rules, your_castle, computer_castle, your_choice, computer_choice, rt)
+        encodedjson = json_failed_Generate(rules, your_castle, computer_castle, your_choice, computer_choice, rt)
         return encodedjson
 
     prov = get_province()
 
     if your_choice not in prov:
         rt = "抱歉，您选择的城堡不在中国的省份内，请重新尝试！"
-        json_failed_Generate(rules, your_castle, computer_castle, your_choice, computer_choice, rt)
+        encodedjson = json_failed_Generate(rules, your_castle, computer_castle, your_choice, computer_choice, rt)
         return encodedjson
 
     your_castle, computer_castle = reset_castle(rules, your_castle, computer_castle, your_choice, "your")

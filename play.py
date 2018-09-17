@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 def play(prov, your_castle, computer_castle, rules):
     candidates = {}
     for i in prov:

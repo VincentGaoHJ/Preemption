@@ -4,7 +4,8 @@ Created on Sat Aug 18 22:07:13 2018
 
 @author: gaoha
 """
-
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from mpl_toolkits.basemap import Basemap
@@ -29,7 +30,6 @@ def get_province():
 
 
 def create_map(your_castle, computer_castle):
-    plt.switch_backend('agg')
     # 创建一个地图
     plt.figure(figsize=(14, 7))
     m = Basemap(llcrnrlon=77, llcrnrlat=14, urcrnrlon=140, urcrnrlat=51, projection='lcc', lat_1=33, lat_2=45,
