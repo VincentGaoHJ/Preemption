@@ -1,7 +1,8 @@
 # Preemption
 数据科学进阶题
 
-'''
+
+```
 ├─ static
 │  ├─ gadm36_CHN_shp
 │  │  ├─ gadm36_CHN_0.cpg
@@ -35,4 +36,4 @@
 ├─ play.py
 ├─ province.py
 └─ requirements.txt
-'''
+```
